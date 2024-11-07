@@ -6,8 +6,15 @@ function NewScreen() {
   const navigate = useNavigate();
 
   const handleRunQuery = () => {
-    // Navigate to the QueryResult page and pass the query via state
-    navigate('/query-result', { state: { query } });
+    // Encode the query string as per the desired format
+    const formattedQuery = query
+      .split('\n') // Split query into lines
+      .map(line => line.trim()) // Trim each line
+      .filter(line => line.length > 0) // Remove empty lines
+      .join('%0D%0A'); // Join the lines with line breaks encoded as %0D%0A
+
+    // Navigate to the QueryResult page and pass the query via URL query parameter
+    navigate(`/query-result?query=${encodeURIComponent(formattedQuery)}`);
   };
 
   return (

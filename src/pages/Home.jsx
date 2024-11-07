@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigate = useNavigate();
+  const [screens, setScreens] = useState([]);
+
+  useEffect(() => {
+    const savedScreens = JSON.parse(localStorage.getItem('savedScreens')) || [];
+    setScreens(savedScreens);
+  }, []);
 
   const handleCreateNewScreen = () => {
     navigate('/new-screen');
+  };
+
+  const handleScreenClick = (link) => {
+    navigate(link); // Directly navigates within the app for relative paths
   };
 
   return (
@@ -23,10 +33,20 @@ function Home() {
         <p className="font-medium text-[1.2rem]">Your Screens</p>
         <p className="text-zinc-600 font-medium">Custom Screens created by you</p>
         <div className="mt-5 grid grid-cols-3 gap-4">
-          <div className="border-2 rounded-md px-2 py-3">
-            <div className="title font-semibold">Title 1</div>
-            <div className="desc text-zinc-600">Description 1</div>
-          </div>
+          {screens.length > 0 ? (
+            screens.map((screen, index) => (
+              <div
+                key={index}
+                className="savedScreen border-2 rounded-md px-2 py-3 cursor-pointer"
+                onClick={() => handleScreenClick(screen.link)}
+              >
+                <div className="title font-semibold">{screen.title}</div>
+                <div className="desc text-zinc-600">{screen.name}</div>
+              </div>
+            ))
+          ) : (
+            <p>No screens available</p>
+          )}
         </div>
       </div>
     </div>
