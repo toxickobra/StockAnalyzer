@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { MdKeyboardBackspace } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
-
 function NewScreen() {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
-
+  const handleBackNavigation = () =>{
+    navigate('/')
+  }
   const handleRunQuery = () => {
     // Encode the query string as per the desired format
     const formattedQuery = query
@@ -18,11 +20,13 @@ function NewScreen() {
   };
 
   return (
-    <div className="h-[100vh] bg-[#ebeff6] w-[100vw] p-20">
+    <div className="h-[100vh] bg-[#ebeff6] w-full p-5 lg:p-20">
+         <button className="backButton mb-10" onClick={handleBackNavigation}><MdKeyboardBackspace size={30}/>
+         </button>
       <div className="bg-white p-5 rounded-xl">
         <p className="text-[1.3rem]">Create a Search Query</p>
         <p className="text-[1.1rem]">Query</p>
-        <div className="flex mt-10 justify-between gap-20">
+        <div className="flex mt-10 justify-between gap-10 lg:gap-15  flex-col lg:flex-row ">
           <textarea
             placeholder="Enter your search query..."
             className="w-full p-2 border border-gray-300 rounded-md resize-y focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -30,7 +34,7 @@ function NewScreen() {
             value={query}
             onChange={(e) => setQuery(e.target.value)} // Update query state
           />
-          <div className="border border-gray-300 bg-[#f6fafd] p-6 rounded-md w-[25%]">
+          <div className="border border-gray-300 bg-[#f6fafd] p-6 rounded-md lg:w-[25%] w-full ">
             <p>
               Custom query example<br /><br />
               Market capitalization {'>'} 500 AND<br />

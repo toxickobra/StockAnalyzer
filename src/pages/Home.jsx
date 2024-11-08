@@ -19,7 +19,7 @@ function Home() {
   };
 
   return (
-    <div className="h-[100vh] w-[100vw] bg-[#ebeff6] p-20">
+    <div className="h-[100vh] w-full bg-[#ebeff6] p-5 lg:p-20">
       <div className="flex justify-between">
         <p className="font-medium text-2xl">Stock screens</p>
         <button
@@ -32,7 +32,7 @@ function Home() {
       <div className="bg-white p-5 mt-10 rounded-xl shadow-sm">
         <p className="font-medium text-[1.2rem]">Your Screens</p>
         <p className="text-zinc-600 font-medium">Custom Screens created by you</p>
-        <div className="mt-5 grid grid-cols-3 gap-4">
+        <div className="mt-5 grid grid-cols-1 lg:grid-cols-3 gap-4">
           {screens.length > 0 ? (
             screens.map((screen, index) => (
               <div

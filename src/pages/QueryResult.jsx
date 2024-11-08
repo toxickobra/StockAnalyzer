@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
-import { useLocation } from 'react-router-dom';
+import { MdKeyboardBackspace } from "react-icons/md";
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import SaveScreenPopup from '../components/SaveScreenPopup';
-
 function QueryResult() {
   const location = useLocation();
-
+  const navigate = useNavigate();
   // Extract the query parameter from the URL
   const query = new URLSearchParams(location.search).get('query') || '';
 
@@ -107,7 +107,9 @@ function QueryResult() {
     }));
     setCurrentPage(1);
   };
-
+  const handleBackNavigation = () =>{
+    navigate('/new-screen')
+  }
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentStocks = sortedData.slice(indexOfFirstItem, indexOfLastItem);
@@ -134,6 +136,8 @@ function QueryResult() {
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
+        <button className="backButton mb-10" onClick={handleBackNavigation}><MdKeyboardBackspace size={30}/>
+        </button>
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold mb-4">Query Results</h2>
         <div className='gap-5 flex'>
@@ -158,7 +162,7 @@ function QueryResult() {
       {sortedData.length > 0 && (
         <div className="overflow-auto">
           <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-            <thead>
+          <thead>
               <tr className="bg-gray-100">
                 <th className="px-4 py-2 text-left">S.No.</th>
                 <th className="px-4 py-2 text-left">Ticker</th>
@@ -178,7 +182,62 @@ function QueryResult() {
                   {sortConfig.key === 'P/E Ratio' &&
                     (sortConfig.direction === 'ascending' ? <FaArrowUp /> : <FaArrowDown />)}
                 </th>
-                {/* Add other columns here */}
+                <th
+                  className="px-4 py-2 text-left cursor-pointer"
+                  onClick={() => handleSort('ROE (%)')}
+                >
+                  ROE (%)
+                  {sortConfig.key === 'ROE (%)' &&
+                    (sortConfig.direction === 'ascending' ? <FaArrowUp /> : <FaArrowDown />)}
+                </th>
+                <th
+                  className="px-4 py-2 text-left cursor-pointer"
+                  onClick={() => handleSort('Debt-to-Equity Ratio')}
+                >
+                  Debt-to-Equity
+                  {sortConfig.key === 'Debt-to-Equity Ratio' &&
+                    (sortConfig.direction === 'ascending' ? <FaArrowUp /> : <FaArrowDown />)}
+                </th>
+                <th
+                  className="px-4 py-2 text-left cursor-pointer"
+                  onClick={() => handleSort('Dividend Yield (%)')}
+                >
+                  Dividend Yield (%)
+                  {sortConfig.key === 'Dividend Yield (%)' &&
+                    (sortConfig.direction === 'ascending' ? <FaArrowUp /> : <FaArrowDown />)}
+                </th>
+                <th
+                  className="px-4 py-2 text-left cursor-pointer"
+                  onClick={() => handleSort('Revenue Growth (%)')}
+                >
+                  Revenue Growth (%)
+                  {sortConfig.key === 'Revenue Growth (%)' &&
+                    (sortConfig.direction === 'ascending' ? <FaArrowUp /> : <FaArrowDown />)}
+                </th>
+                <th
+                  className="px-4 py-2 text-left cursor-pointer"
+                  onClick={() => handleSort('EPS Growth (%)')}
+                >
+                  EPS Growth (%)
+                  {sortConfig.key === 'EPS Growth (%)' &&
+                    (sortConfig.direction === 'ascending' ? <FaArrowUp /> : <FaArrowDown />)}
+                </th>
+                <th
+                  className="px-4 py-2 text-left cursor-pointer"
+                  onClick={() => handleSort('Current Ratio')}
+                >
+                  Current Ratio
+                  {sortConfig.key === 'Current Ratio' &&
+                    (sortConfig.direction === 'ascending' ? <FaArrowUp /> : <FaArrowDown />)}
+                </th>
+                <th
+                  className="px-4 py-2 text-left cursor-pointer"
+                  onClick={() => handleSort('Gross Margin (%)')}
+                >
+                  Gross Margin (%)
+                  {sortConfig.key === 'Gross Margin (%)' &&
+                    (sortConfig.direction === 'ascending' ? <FaArrowUp /> : <FaArrowDown />)}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -188,7 +247,13 @@ function QueryResult() {
                   <td className="px-4 py-2">{stock.Ticker}</td>
                   <td className="px-4 py-2">{stock['Market Capitalization (B)']}</td>
                   <td className="px-4 py-2">{stock['P/E Ratio']}</td>
-                  {/* Add other data columns here */}
+                  <td className="px-4 py-2">{stock['ROE (%)']}</td>
+                  <td className="px-4 py-2">{stock['Debt-to-Equity Ratio']}</td>
+                  <td className="px-4 py-2">{stock['Dividend Yield (%)']}</td>
+                  <td className="px-4 py-2">{stock['Revenue Growth (%)']}</td>
+                  <td className="px-4 py-2">{stock['EPS Growth (%)']}</td>
+                  <td className="px-4 py-2">{stock['Current Ratio']}</td>
+                  <td className="px-4 py-2">{stock['Gross Margin (%)']}</td>
                 </tr>
               ))}
             </tbody>
